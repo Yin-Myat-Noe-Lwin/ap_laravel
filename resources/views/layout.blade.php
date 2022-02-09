@@ -7,7 +7,6 @@
 <h1 style="text-align:center">Sample Blog Site</h1>
 <body>
   
-    
     @yield('content')
 </body>
 </html>
