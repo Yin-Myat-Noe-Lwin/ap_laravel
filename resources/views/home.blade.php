@@ -3,8 +3,9 @@
 @section('content')
 <div class="container">
   <div>
-  
     <a href="/post/create" class="btn btn-success">Create new post</a>
+    <a href="/logout" class="btn btn-warning">Logout</a>
+    <h4 style="float:right">{{Auth::user()->name}}</h4>
   </div>
   <br>
 <div class="card">

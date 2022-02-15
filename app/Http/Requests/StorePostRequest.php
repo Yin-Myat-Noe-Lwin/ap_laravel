@@ -24,16 +24,18 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:post|max:255',
+            'name'        => 'required|unique:post|max:255',
             'description' => 'required',
+            'category_id'    => 'required',
+            
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
+            'name.required'        => 'Name is required',
             'description.required' => 'Description is required',
-        ];
+               ];
     }
 }
