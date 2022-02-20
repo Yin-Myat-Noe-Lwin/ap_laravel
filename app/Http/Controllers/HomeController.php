@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Test;
 use App\Models\Post;
+use App\Mail\PostStored;
 use App\Models\Category;
+use App\Mail\PostCreated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\StorePostRequest;
 
@@ -19,12 +24,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        /***Mail::raw('Hello',function($msg)
+        {
+            $msg->to('lwin@gmail.com')->subject('AP Index Function');
+        });***/
+
         //$data=Post::all();
         //Select * from where user_id=
-        
+        //dd(config('mail.from.address'));
+        //dd(config('aprogrammer.info.third'));
+
         $data=Post::where('user_id',auth()->id())->orderBy('id','desc')->get();
+        //$request->session()->flash('status', 'Task was successful!');
         return view('home',compact('data'));
     }
 
@@ -56,9 +69,9 @@ class HomeController extends Controller
 
         $post->save(); **/
 
-        Post::create($validated);
+        $post=Post::create($validated + ['user_id'=> Auth::user()->id]);
 
-        return redirect('/post');
+        return redirect('/post')->with('status', config('aprogrammer.message.created'));
     }
 
     /**

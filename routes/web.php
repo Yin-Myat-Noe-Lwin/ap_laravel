@@ -1,6 +1,11 @@
 <?php
 
+use App\Test;
+use App\Container;
+use App\TestFacade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 
@@ -14,7 +19,11 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('/',[HomeController::class,'testroot'])->name ('root');
+Route::get('/',function(){
+      dd(TestFacade::execute());
+      //dd(app('test')->execute());
+      //dd(resolve('test')->execute());
+});
 
 Route::resource('post', HomeController::class)->middleware('auth');
 
