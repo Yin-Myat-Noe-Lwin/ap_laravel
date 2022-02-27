@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Test;
 use App\Models\Post;
+use App\Models\User;
 use App\Mail\PostStored;
 use App\Models\Category;
 use App\Mail\PostCreated;
 use Illuminate\Http\Request;
+use App\Events\PostCreatedEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\PostCreatedNotification;
 
 class HomeController extends Controller
 {
@@ -35,6 +39,12 @@ class HomeController extends Controller
         //Select * from where user_id=
         //dd(config('mail.from.address'));
         //dd(config('aprogrammer.info.third'));
+
+        /*** $user=User::find('1');
+        $user->notify(new PostCreatedNotification());
+        Notification::send(, new PostCreatedNotification());
+        echo "sent";
+        exit(); ***/
 
         $data=Post::where('user_id',auth()->id())->orderBy('id','desc')->get();
         //$request->session()->flash('status', 'Task was successful!');
@@ -71,7 +81,10 @@ class HomeController extends Controller
 
         $post=Post::create($validated + ['user_id'=> Auth::user()->id]);
 
+        event(new PostCreatedEvent($post));
+
         return redirect('/post')->with('status', config('aprogrammer.message.created'));
+
     }
 
     /**

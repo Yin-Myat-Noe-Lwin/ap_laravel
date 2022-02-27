@@ -20,9 +20,10 @@ use App\Http\Controllers\HomeController;
 |
 */
 Route::get('/',function(){
-      dd(TestFacade::execute());
+      //dd(TestFacade::execute());
       //dd(app('test')->execute());
       //dd(resolve('test')->execute());
+      return view('welcome');
 });
 
 Route::resource('post', HomeController::class)->middleware('auth');
